@@ -5,17 +5,18 @@ import pandas as pd
 import numpy as np
 import pydeck as pdk # type: ignore
 import plotly.express as px # type: ignore
+from stqdm import stqdm # type: ignore
 
 st.title("Trading Bot using Q Learning")
 
 with st.container():
     col1, col2 = st.columns(2)
     with col1:
+        st.markdown("")
         st.markdown("### Today's price : ***{}***".format(prices[-1]))
         st.markdown("##### Yesterday's price : ***{}***".format(prices[-2]))
-        if st.checkbox("Show Q Table", False):
-            st.write(pd.DataFrame(q_table))
-    with col2:
+        st.markdown("")
+
         fig1, ax1 = plt.subplots()
         ax1.plot(prices[-10000:])
         # ax1.plot(prices)
@@ -23,7 +24,11 @@ with st.container():
         ax1.set_xlabel("Market Days")
         ax1.set_ylabel("Price")
         st.pyplot(fig1)
-
+    
+    with col2:
+        if st.checkbox("Show Q Table", False):
+            st.write(pd.DataFrame(q_table))
+        
 st.markdown("**Hyperparameters**")
 
 with st.container():
@@ -53,22 +58,23 @@ rewards_list = []
 
 st.markdown("**Model Training**")
 if st.button("Start Training"):
-    st.markdown("Started Training ...")
 
     with st.container():
         col1, col2 = st.columns(2)
 
     with col1:
-        for e in range(n_episodes):
+        for e in stqdm(range(n_episodes)):
             total_reward = 0
             state = 0
             done = False
             alpha = alphas[e]
+            # my_bar = st.progress(0)
     
             while not done:
                 action = choose_action(state, eps)
                 next_state, reward, theta, done = act(state, action, theta)
                 total_reward += reward
+                # my_bar.progress(state/nr_states)
         
                 if(done):
                     rewards[e] = total_reward
@@ -82,9 +88,9 @@ if st.button("Start Training"):
     with col2:
         fig2, ax2 = plt.subplots()
         ax2.plot(rewards_list)
-        ax1.set_title("Reward received per episode:")
-        ax1.set_xlabel("Episodes")
-        ax1.set_ylabel("Reward")
+        ax2.set_title("Reward received per episode:")
+        ax2.set_xlabel("Episodes")
+        ax2.set_ylabel("Reward")
         st.pyplot(fig2)
 
     state = 0
@@ -107,3 +113,5 @@ if st.button("Start Training"):
     st.markdown("**Inference**")
     st.markdown("Action to be Taken : ***{}***".format(nr_to_actions[int(action_to_be_taken)]))
     st.markdown("Reward received from experience : ***{}***".format(total_reward))
+
+    st.balloons()
