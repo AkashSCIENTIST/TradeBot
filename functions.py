@@ -1,4 +1,4 @@
-import plotly.graph_objects as go #type  :ignore
+#import plotly.graph_objects as go #type  :ignore
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -6,7 +6,7 @@ import os
 prices = np.loadtxt('prices_btc_Jan_11_2020_to_May_22_2020.txt', dtype=float)
 # print('Number of prices:', len(prices))
 
-graph_fig = go.Figure(data=go.Scatter(y=prices[-10000:]))#, x="Date", y="Price", title="Date vs Price")
+#graph_fig = go.Figure(data=go.Scatter(y=prices[-10000:]))#, x="Date", y="Price", title="Date vs Price")
 # fig.show()
 
 def buy(btc_price, btc, money):
