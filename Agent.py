@@ -96,13 +96,13 @@ with st.container():
     col1, col2 = st.columns(2)
     with col1:
         btc = st.number_input('Amount of BTC', min_value = 0)
-        min_alpha = st.number_input('Minimum Learning Rate', min_value=0.01, max_value=1.0, value=0.02, step=0.01)
+        min_alpha = st.number_input('Minimum Learning Rate (Alpha)', min_value=0.01, max_value=1.0, value=0.02, step=0.01)
         n_episodes = st.slider("No of Episodes", min_value = 3, max_value = 30, value = 5)
         alphas = np.linspace(1.0, min_alpha, n_episodes)
     with col2:
         money = st.number_input('Amount of USD', min_value = 100)
-        eps = st.number_input('Exploration Rate', min_value=0.01, max_value=1.0, value=0.5, step=0.01)
-        gamma = st.number_input('Discount Factor', min_value=0.01, max_value=1.0, value=1.0, step=0.01)
+        eps = st.number_input('Exploitation Rate (1 - Episilon)', min_value=0.01, max_value=1.0, value=0.5, step=0.01)
+        gamma = st.number_input('Discount Factor (Gamma)', min_value=0.01, max_value=1.0, value=1.0, step=0.01)
 
 st.markdown("\nLearning Rate per Episode:")
 st.bar_chart(
