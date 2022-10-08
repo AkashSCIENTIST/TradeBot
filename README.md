@@ -9,7 +9,7 @@ To start the application
 ```powershell
 streamlit run Agent.py
 ```
-- Deep Q Network Learning
+- Deep Q Learning Network
 ```powershell
 streamlit run Agent.py
 ```
