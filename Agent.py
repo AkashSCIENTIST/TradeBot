@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 np.random.seed(1)
 prices = np.loadtxt('prices_btc_Jan_11_2020_to_May_22_2020.txt', dtype=float)
+prices = prices[-10**5:]
 
 def buy(btc_price, btc, money):
     if(money != 0):
@@ -66,9 +67,10 @@ nr_to_actions = { k:v for (k,v) in enumerate(actions_to_nr) }
 nr_actions = len(actions_to_nr.keys())
 nr_states = len(prices)
 
+# q_table = np.random.rand(nr_states, nr_actions)
 q_table = np.random.rand(nr_states, nr_actions)
 
-st.title("Trading Bot using Q Learning")
+st.title("Trading Bot using Q Learning - Traditional Method")
 
 with st.container():
     col1, col2 = st.columns(2)
@@ -76,15 +78,18 @@ with st.container():
         st.markdown("")
         st.markdown("### Today's price : ***{}***".format(prices[-1]))
         st.markdown("##### Yesterday's price : ***{}***".format(prices[-2]))
+        st.markdown("No of Market days considered : ***{}***".format(len(prices)))
         st.markdown("")
 
         fig1, ax1 = plt.subplots()
-        ax1.plot(prices[-10000:])
+        # ax1.plot(prices[-10000:])
+        ax1.plot(prices)
         # ax1.plot(prices)
         ax1.set_title("Price chart")
         ax1.set_xlabel("Market Days")
         ax1.set_ylabel("Price")
         st.pyplot(fig1)
+
     
     with col2:
         if st.checkbox("Show Q Table", False):
@@ -134,7 +139,7 @@ if st.button("Start Training"):
                 done = False
                 alpha = alphas[e]
     
-                while not done:
+                for x in stqdm(range(nr_states), desc="Episode " + str(e+1)):
                     action = choose_action(state, eps)
                     next_state, reward, theta, done = act(state, action, theta)
                     total_reward += reward
@@ -187,7 +192,7 @@ if st.button("Start Training"):
                 ax3.plot(wait_idx[0], prices[wait_idx], 'yo', markersize=2, label = "Hold")
                 ax3.set_ylabel("Rewards")
                 ax3.set_xlabel("Episodes")
-                ax3.set_title("Action action per Episode")
+                ax3.set_title("Action taken per Episode")
                 ax3.legend()
                 st.pyplot(fig3)
 
