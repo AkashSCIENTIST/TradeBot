@@ -187,8 +187,9 @@ if st.button("Start Training"):
                 sell_idx = np.where(acts == 1)
 
                 fig3, ax3 = plt.subplots()
-                ax3.plot(buys_idx[0], prices[buys_idx], 'bo', markersize=2, label = "Buy")
-                ax3.plot(sell_idx[0], prices[sell_idx], 'ro', markersize=2, label = "Sell")
+                ax3.plot(prices, alpha=0.4, linewidth=1)
+                ax3.plot(buys_idx[0], prices[buys_idx], '^', markersize=2, label = "Buy")
+                ax3.plot(sell_idx[0], prices[sell_idx], 'v', markersize=2, label = "Sell")
                 ax3.plot(wait_idx[0], prices[wait_idx], 'yo', markersize=2, label = "Hold")
                 ax3.set_ylabel("Rewards")
                 ax3.set_xlabel("Episodes")
@@ -201,5 +202,3 @@ if st.button("Start Training"):
                 st.markdown("**Inference**")
                 st.markdown("Action to be Taken : ***{}***".format(nr_to_actions[int(action_to_be_taken)]))
                 st.markdown("Reward received from experience : ***{}***".format(total_reward))
-
-        st.balloons()
