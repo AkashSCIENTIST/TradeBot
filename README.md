@@ -11,5 +11,5 @@ streamlit run Agent.py
 ```
 - Deep Q Learning Network
 ```cmd
-streamlit run Agent.py
+streamlit run Agent2.py
 ```
